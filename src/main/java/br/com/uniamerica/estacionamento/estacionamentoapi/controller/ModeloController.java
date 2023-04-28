@@ -9,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "api/modelo")
@@ -39,9 +37,14 @@ public class ModeloController {
                 : ResponseEntity.ok(modelo);
     }
 
-    @GetMapping("lista")
+    @GetMapping("/lista")
     public ResponseEntity<?> listaCompleta(){
         return ResponseEntity.ok(this.modeloRepository.findAll());
+    }
+
+    @GetMapping("/ativo")
+    public ResponseEntity<?> findByAtivo(){
+        return ResponseEntity.ok(this.modeloRepository.findByAtivo(true));
     }
 
     @PostMapping
@@ -55,7 +58,7 @@ public class ModeloController {
         }
     }
 
-    @PostMapping
+    @PutMapping
     public ResponseEntity<?> atualizar(
             @RequestParam("id") final Long id,
             @RequestBody final Modelo modelo
@@ -79,14 +82,20 @@ public class ModeloController {
         }
     }
 
+    @DeleteMapping
+    public ResponseEntity<?> deletar(@RequestParam("id") final Long id){
+        final Modelo modelo = this.modeloRepository.findById(id).orElse(null);
+        try{
+            this.modeloRepository.delete(modelo);
+            return ResponseEntity.ok("Registro deletado");
+        }
+        catch(DataIntegrityViolationException e){
+            modelo.setAtivo(false);
+            this.modeloRepository.save(modelo);
+            return ResponseEntity.internalServerError().body("Erro " + e.getCause().getCause().getMessage());
+        }
     }
 
-    /**@GetMapping
+}
 
-    @PostMapping
-
-    @PutMapping
-
-    @DeleteMapping
-**/
 
