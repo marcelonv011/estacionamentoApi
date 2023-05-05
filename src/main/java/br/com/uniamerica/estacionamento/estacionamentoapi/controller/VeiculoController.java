@@ -2,6 +2,7 @@ package br.com.uniamerica.estacionamento.estacionamentoapi.controller;
 
 import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Veiculo;
 import br.com.uniamerica.estacionamento.estacionamentoapi.repository.VeiculoRepository;
+import br.com.uniamerica.estacionamento.estacionamentoapi.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ public class VeiculoController {
 
     @Autowired
     private VeiculoRepository veiculoRepository;
+
+    @Autowired
+    private VeiculoService veiculoService;
 
     @GetMapping
     public ResponseEntity<?> findByIdRequest(
@@ -38,12 +42,13 @@ public class VeiculoController {
     @PostMapping
     public  ResponseEntity<?> cadastrar(@RequestBody final Veiculo veiculo){
         try {
-            this.veiculoRepository.save(veiculo);
-            return ResponseEntity.ok().body("Registro adicionado con exito");
-        }
-        catch (Exception e){
+            this.veiculoService.cadastrarVeiculo(veiculo);
+        } catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("CPF já foi cadastrado");
+        } catch (Exception e){
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
+        return ResponseEntity.ok().body("Registro adicionado con exito");
     }
 
     @PutMapping
@@ -52,14 +57,7 @@ public class VeiculoController {
             @RequestBody final Veiculo veiculo
     ) {
         try {
-            final Veiculo veiculoBanco = this.veiculoRepository.findById(id).orElse(null);
-
-            if (veiculoBanco == null || !veiculoBanco.getId().equals(veiculo.getId())){
-                throw new RuntimeException("nao foi possivel identificar o registro informado.");
-            }
-
-            this.veiculoRepository.save(veiculo);
-            return ResponseEntity.ok("Registro atualizado com sucesso");
+            this.veiculoService.atualizarVeiculo(id, veiculo);
         }
         catch (DataIntegrityViolationException e){
             return ResponseEntity.internalServerError()
@@ -68,6 +66,7 @@ public class VeiculoController {
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("error:" + e.getMessage());
         }
+        return ResponseEntity.ok("Registro atualizado com sucesso");
     }
 
     @DeleteMapping
