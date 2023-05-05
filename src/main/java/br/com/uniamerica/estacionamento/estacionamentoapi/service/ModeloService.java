@@ -15,8 +15,14 @@ public class ModeloService {
 
     @Transactional
     public void cadastrarModelo(Modelo modelo){
-        if (modelo.getNome() == null || modelo.getNome().isEmpty()) {
-            throw new RuntimeException("Debe contener un nombre");
+        if (modelo.getNome() == null || modelo.getNome().isEmpty()){
+            throw new RuntimeException("Debe conter um nome");
+        }
+        if (modelo.getNome().length() > 100){
+            throw new RuntimeException("O nome de o modelo debe conter menos de 100 carateres");
+        }
+        if(modelo.getMarca().getNome() == null || modelo.getMarca().getNome().isEmpty()){
+            throw new RuntimeException("Debe conter um nome de marca");
         }
         this.modeloRepository.save(modelo);
     }
@@ -32,5 +38,6 @@ public class ModeloService {
         }
         this.modeloRepository.save(modelo);
     }
+
 
 }

@@ -2,6 +2,7 @@ package br.com.uniamerica.estacionamento.estacionamentoapi.controller;
 
 import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Marca;
 import br.com.uniamerica.estacionamento.estacionamentoapi.repository.MarcaRepository;
+import br.com.uniamerica.estacionamento.estacionamentoapi.service.MarcaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ public class MarcaController {
 
     @Autowired
     private MarcaRepository marcaRepository;
+
+    @Autowired
+    private MarcaService marcaService;
 
     @GetMapping
     public ResponseEntity<?> findByRequest(
@@ -39,11 +43,11 @@ public class MarcaController {
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Marca marca) {
         try {
-            this.marcaRepository.save(marca);
-            return ResponseEntity.ok().body("Registro adicionado com exito");
+            this.marcaService.cadastrarMarca(marca);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("error" + e.getMessage());
         }
+        return ResponseEntity.ok().body("Registro adicionado com exito");
     }
 
     @PutMapping
