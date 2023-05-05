@@ -56,20 +56,14 @@ public class MarcaController {
             @RequestBody final Marca marca
     ) {
         try {
-            final Marca marcaBanco = this.marcaRepository.findById(id).orElse(null);
-
-            if (marcaBanco == null || !marcaBanco.getId().equals(marca.getId())) {
-                throw new RuntimeException("nao foi possivel identificar o registro informado.");
-            }
-
-            this.marcaRepository.save(marca);
-            return ResponseEntity.ok("Registro atualizado com sucesso");
+            this.marcaService.atualizarMarca(id, marca);
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError()
                     .body("Error:" + e.getCause().getCause().getMessage());
         } catch (RuntimeException e) {
             return ResponseEntity.internalServerError().body("error:" + e.getMessage());
         }
+        return ResponseEntity.ok("Registro atualizado com sucesso");
     }
 
     @DeleteMapping

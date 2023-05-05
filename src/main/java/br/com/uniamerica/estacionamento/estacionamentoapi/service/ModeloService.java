@@ -36,6 +36,9 @@ public class ModeloService {
         if (modelo.getNome() == null || modelo.getNome().isEmpty()) {
             throw new RuntimeException("Debe contener un nombre");
         }
+        if(modelo.getMarca().getNome() == null || modelo.getMarca().getNome().isEmpty()){
+            throw new RuntimeException("Debe conter um nome de marca");
+        }
         this.modeloRepository.save(modelo);
     }
 
