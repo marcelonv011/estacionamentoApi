@@ -3,6 +3,7 @@ package br.com.uniamerica.estacionamento.estacionamentoapi.controller;
 
 import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Modelo;
 import br.com.uniamerica.estacionamento.estacionamentoapi.repository.ModeloRepository;
+import br.com.uniamerica.estacionamento.estacionamentoapi.service.ModeloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ public class ModeloController {
 
     @Autowired
     private ModeloRepository modeloRepository;
+
+    @Autowired
+    private ModeloService modeloService;
 
     @GetMapping("{id}")
     public ResponseEntity<?> findByIdPath(
@@ -50,12 +54,12 @@ public class ModeloController {
     @PostMapping
     public  ResponseEntity<?> cadastrar(@RequestBody final Modelo modelo){
         try {
-            this.modeloRepository.save(modelo);
-            return ResponseEntity.ok().body("Registro adicionado con exito");
+            this.modeloService.cadastrarModelo(modelo);
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
+        return ResponseEntity.ok().body("Registro adicionado con exito");
     }
 
     @PutMapping
@@ -64,14 +68,7 @@ public class ModeloController {
             @RequestBody final Modelo modelo
     ) {
         try {
-            final Modelo modeloBanco = this.modeloRepository.findById(id).orElse(null);
-
-            if (modeloBanco == null || !modeloBanco.getId().equals(modelo.getId())){
-                throw new RuntimeException("nao foi possivel identificar o registro informado.");
-            }
-
-            this.modeloRepository.save(modelo);
-            return ResponseEntity.ok("Registro atualizado com sucesso");
+            this.modeloService.updateModelo(id, modelo);
         }
         catch (DataIntegrityViolationException e){
             return ResponseEntity.internalServerError()
@@ -80,6 +77,7 @@ public class ModeloController {
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("error:" + e.getMessage());
         }
+        return ResponseEntity.ok("Registro atualizado com sucesso");
     }
 
     @DeleteMapping
