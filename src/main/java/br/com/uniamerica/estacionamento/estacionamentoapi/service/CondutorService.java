@@ -26,6 +26,9 @@ public class CondutorService {
         if("".equals(condutor.getTelefone()) || condutor.getTelefone().length() > 17){
             throw new RuntimeException(" TELEFONE nao pode ser nulo e deve conter menos de 17 carateres");
         }
+        if("".equals(condutor.getTempoPago())){
+            throw new RuntimeException(" Tempo pago nao pode ser nulo");
+        }
         this.condutorRepository.save(condutor);
     }
 

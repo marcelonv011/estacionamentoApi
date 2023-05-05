@@ -2,6 +2,7 @@ package br.com.uniamerica.estacionamento.estacionamentoapi.controller;
 
 import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Movimentacao;
 import br.com.uniamerica.estacionamento.estacionamentoapi.repository.MovimentacaoRepository;
+import br.com.uniamerica.estacionamento.estacionamentoapi.service.MovimentacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ public class MovimentacaoController {
 
     @Autowired
     private MovimentacaoRepository movimentacaoRepository;
+
+    @Autowired
+    private MovimentacaoService movimentacaoService;
 
     @GetMapping
     public ResponseEntity<?> findByIdRequest(
@@ -38,12 +42,12 @@ public class MovimentacaoController {
     @PostMapping
     public  ResponseEntity<?> cadastrar(@RequestBody final Movimentacao movimentacao){
         try {
-            this.movimentacaoRepository.save(movimentacao);
-            return ResponseEntity.ok().body("Registro adicionado con exito");
+            this.movimentacaoService.cadastrarMovimentacao(movimentacao);
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
+        return ResponseEntity.ok().body("Registro adicionado con exito");
     }
 
     @PutMapping
@@ -52,14 +56,7 @@ public class MovimentacaoController {
             @RequestBody final Movimentacao movimentacao
     ) {
         try {
-            final Movimentacao movimentacaoBanco = this.movimentacaoRepository.findById(id).orElse(null);
-
-            if (movimentacaoBanco == null || !movimentacaoBanco.getId().equals(movimentacao.getId())){
-                throw new RuntimeException("nao foi possivel identificar o registro informado.");
-            }
-
-            this.movimentacaoRepository.save(movimentacao);
-            return ResponseEntity.ok("Registro atualizado com sucesso");
+            this.movimentacaoService.atualizarMovimentacao(id, movimentacao);
         }
         catch (DataIntegrityViolationException e){
             return ResponseEntity.internalServerError()
@@ -68,6 +65,7 @@ public class MovimentacaoController {
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("error:" + e.getMessage());
         }
+        return ResponseEntity.ok("Registro atualizado com sucesso");
     }
 
     @DeleteMapping
