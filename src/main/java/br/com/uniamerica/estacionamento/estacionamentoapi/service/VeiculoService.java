@@ -1,5 +1,6 @@
 package br.com.uniamerica.estacionamento.estacionamentoapi.service;
 
+import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Cor;
 import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Veiculo;
 import br.com.uniamerica.estacionamento.estacionamentoapi.repository.VeiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class VeiculoService {
         if ("".equals(veiculo.getModelo().getMarca().getNome())){
             throw new RuntimeException(" Tem que inserir o nome da marca de o veiculo");
         }
+        if ( veiculo.getCor() == null ){
+            throw new RuntimeException("Tem que colocar o tipo de veiculo");
+        }
         this.veiculoRepository.save(veiculo);
     }
 
@@ -43,6 +47,9 @@ public class VeiculoService {
         }
         if ("".equals(veiculo.getModelo().getMarca().getNome())){
             throw new RuntimeException(" Tem que inserir o nome da marca de o veiculo");
+        }
+        if ( veiculo.getTipo() == null ) {
+            throw new RuntimeException("Tem que colocar o tipo de veiculo");
         }
         this.veiculoRepository.save(veiculo);
     }

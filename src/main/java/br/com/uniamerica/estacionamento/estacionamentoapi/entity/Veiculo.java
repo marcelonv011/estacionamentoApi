@@ -21,9 +21,11 @@ public class Veiculo extends AbstractEntity{
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Modelo modelo;
 
+    @Getter @Setter
     @Enumerated(EnumType.STRING)
     private Cor cor;
 
+    @Getter @Setter
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 

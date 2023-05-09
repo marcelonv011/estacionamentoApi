@@ -1,5 +1,6 @@
 package br.com.uniamerica.estacionamento.estacionamentoapi.service;
 
+import br.com.uniamerica.estacionamento.estacionamentoapi.configs.ValTelefone;
 import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Condutor;
 import br.com.uniamerica.estacionamento.estacionamentoapi.repository.CondutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ public class CondutorService {
 
     @Autowired
     private CondutorRepository condutorRepository;
+
+    @Autowired
+    private ValTelefone valTelefone;
 
     @Transactional
     public void cadastrarCondutor(Condutor condutor){
@@ -28,6 +32,9 @@ public class CondutorService {
         }
         if("".equals(condutor.getTempoPago())){
             throw new RuntimeException(" Tempo pago nao pode ser nulo");
+        }
+        if( this.valTelefone.ValTelefone(condutor.getTelefone()) == false) {
+
         }
         this.condutorRepository.save(condutor);
     }
