@@ -18,7 +18,7 @@ public class CondutorService {
 
     @Transactional
     public void cadastrarCondutor(Condutor condutor){
-        if(condutor.getNome() == null || condutor.getNome().isEmpty()){
+        if(condutor.getNome() == null){
             throw new RuntimeException("Debe conter um nome");
         }
         if(condutor.getNome().length() > 100){
@@ -34,7 +34,7 @@ public class CondutorService {
             throw new RuntimeException(" Tempo pago nao pode ser nulo");
         }
         if( this.valTelefone.ValTelefone(condutor.getTelefone()) == false) {
-
+            throw new RuntimeException(" Seu telefone nao é valido");
         }
         this.condutorRepository.save(condutor);
     }
@@ -46,7 +46,7 @@ public class CondutorService {
         if (condutorBanco == null || !condutorBanco.getId().equals(condutor.getId())) {
             throw new RuntimeException("nao foi possivel identificar o registro informado.");
         }
-        if(condutor.getNome() == null || condutor.getNome().isEmpty()){
+        if(condutor.getNome().isEmpty()){
             throw new RuntimeException("Debe conter um nome");
         }
         if(condutor.getNome().length() > 100){
@@ -57,6 +57,9 @@ public class CondutorService {
         }
         if("".equals(condutor.getTelefone()) || condutor.getTelefone().length() > 17){
             throw new RuntimeException(" TELEFONE nao pode ser nulo e deve conter menos de 17 carateres");
+        }
+        if( this.valTelefone.ValTelefone(condutor.getTelefone()) == false) {
+            throw new RuntimeException(" Seu telefone nao é valido");
         }
         this.condutorRepository.save(condutor);
     }

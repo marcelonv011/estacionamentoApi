@@ -14,7 +14,7 @@ public class MarcaService {
 
     @Transactional
     public void cadastrarMarca(Marca marca){
-        if(marca.getNome() == null || marca.getNome().isEmpty()){
+        if(marca.getNome() == null){
             throw new RuntimeException(" Debe conter um nome");
         }
         if(marca.getNome().length() > 70) {
@@ -31,7 +31,7 @@ public class MarcaService {
             throw new RuntimeException("nao foi possivel identificar o registro informado.");
         }
 
-        if(marca.getNome() == null || marca.getNome().isEmpty()){
+        if(marca.getNome() == null){
             throw new RuntimeException(" Debe conter um nome");
         }
         if(marca.getNome().length() > 70) {
