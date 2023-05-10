@@ -45,6 +45,9 @@ public class VeiculoService {
         if ("".equals(veiculo.getModelo().getNome())){
             throw new RuntimeException(" Tem que inserir o nome do modelo de o veiculo");
         }
+        if ( veiculo.getAno() == 0 ){
+            throw new RuntimeException(" Tem que colocar um ano");
+        }
         if ("".equals(veiculo.getModelo().getMarca().getNome())){
             throw new RuntimeException(" Tem que inserir o nome da marca de o veiculo");
         }

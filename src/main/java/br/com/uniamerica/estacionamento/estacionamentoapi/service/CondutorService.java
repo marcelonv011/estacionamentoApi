@@ -1,5 +1,6 @@
 package br.com.uniamerica.estacionamento.estacionamentoapi.service;
 
+import br.com.uniamerica.estacionamento.estacionamentoapi.configs.ValCpf;
 import br.com.uniamerica.estacionamento.estacionamentoapi.configs.ValTelefone;
 import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Condutor;
 import br.com.uniamerica.estacionamento.estacionamentoapi.repository.CondutorRepository;
@@ -15,6 +16,9 @@ public class CondutorService {
 
     @Autowired
     private ValTelefone valTelefone;
+
+    @Autowired
+    private ValCpf valCpf;
 
     @Transactional
     public void cadastrarCondutor(Condutor condutor){
@@ -35,6 +39,9 @@ public class CondutorService {
         }
         if( this.valTelefone.ValTelefone(condutor.getTelefone()) == false) {
             throw new RuntimeException(" Seu telefone nao é valido");
+        }
+        if (this.valCpf.valCpf(condutor.getCpf()) == false){
+            throw new RuntimeException(" Seu CPF nao é valido");
         }
         this.condutorRepository.save(condutor);
     }
@@ -60,6 +67,9 @@ public class CondutorService {
         }
         if( this.valTelefone.ValTelefone(condutor.getTelefone()) == false) {
             throw new RuntimeException(" Seu telefone nao é valido");
+        }
+        if (this.valCpf.valCpf(condutor.getCpf()) == false){
+            throw new RuntimeException(" Seu CPF nao é valido");
         }
         this.condutorRepository.save(condutor);
     }
