@@ -12,4 +12,5 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
 
     public List<Veiculo> findByAtivo(@Param("ativo") final boolean ativo);
 
+    public Veiculo findByPlaca(String placa);
 }

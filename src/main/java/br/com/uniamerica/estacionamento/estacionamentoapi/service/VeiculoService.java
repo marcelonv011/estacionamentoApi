@@ -25,7 +25,13 @@ public class VeiculoService {
             throw new RuntimeException(" Tem que inserir o nome da marca de o veiculo");
         }
         if ( veiculo.getCor() == null ){
-            throw new RuntimeException("Tem que colocar o tipo de veiculo");
+            throw new RuntimeException(" Tem que colocar o tipo de veiculo");
+        }
+        if ( veiculoRepository.findByPlaca(veiculo.getPlaca()) != null){
+            throw new RuntimeException(" Placa de veiculo ja existe!");
+        }
+        if ( veiculo.getAno() < 1980){
+            throw new RuntimeException(" Tem que colocar um veiculo mais novo");
         }
         this.veiculoRepository.save(veiculo);
     }
@@ -53,6 +59,9 @@ public class VeiculoService {
         }
         if ( veiculo.getTipo() == null ) {
             throw new RuntimeException("Tem que colocar o tipo de veiculo");
+        }
+        if ( veiculo.getAno() < 1980){
+            throw new RuntimeException(" Tem que colocar um veiculo mais novo");
         }
         this.veiculoRepository.save(veiculo);
     }
