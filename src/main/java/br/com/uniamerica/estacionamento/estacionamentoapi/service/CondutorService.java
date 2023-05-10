@@ -37,6 +37,9 @@ public class CondutorService {
         if (this.valCpf.valCpf(condutor.getCpf()) == false){
             throw new RuntimeException(" Seu CPF nao é valido");
         }
+        if(condutorRepository.findByCpf(condutor.getCpf())!=null){
+            throw new RuntimeException(" O CPF já existe");
+        }
         this.condutorRepository.save(condutor);
     }
 
@@ -59,6 +62,7 @@ public class CondutorService {
         if (this.valCpf.valCpf(condutor.getCpf()) == false){
             throw new RuntimeException(" Seu CPF nao é valido");
         }
+
         this.condutorRepository.save(condutor);
     }
 }
