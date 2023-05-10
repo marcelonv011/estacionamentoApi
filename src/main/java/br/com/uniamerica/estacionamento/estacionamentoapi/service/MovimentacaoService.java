@@ -1,5 +1,7 @@
 package br.com.uniamerica.estacionamento.estacionamentoapi.service;
 
+import br.com.uniamerica.estacionamento.estacionamentoapi.configs.ValCpf;
+import br.com.uniamerica.estacionamento.estacionamentoapi.configs.ValTelefone;
 import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Movimentacao;
 import br.com.uniamerica.estacionamento.estacionamentoapi.repository.MovimentacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,12 @@ public class MovimentacaoService {
 
     @Autowired
     private MovimentacaoRepository movimentacaoRepository;
+
+    @Autowired
+    private ValCpf valCpf;
+
+    @Autowired
+    private ValTelefone valTelefone;
 
     @Transactional
     public void cadastrarMovimentacao(Movimentacao movimentacao){
@@ -35,6 +43,12 @@ public class MovimentacaoService {
         if("".equals(movimentacao.getValorHora())){
             throw new RuntimeException(" Deve colocar o valor da hora");
         }
+        if( this.valTelefone.ValTelefone(movimentacao.getCondutor().getTelefone()) == false) {
+            throw new RuntimeException(" Seu telefone nao é valido");
+        }
+        if (this.valCpf.valCpf(movimentacao.getCondutor().getCpf()) == false){
+            throw new RuntimeException(" Seu CPF nao é valido");
+        }
         this.movimentacaoRepository.save(movimentacao);
     }
 
@@ -46,7 +60,6 @@ public class MovimentacaoService {
         if (movimentacaoBanco == null || !movimentacaoBanco.getId().equals(movimentacao.getId())){
             throw new RuntimeException("nao foi possivel identificar o registro informado.");
         }
-
         if ("".equals(movimentacao.getVeiculo())){
             throw new RuntimeException(" Deve colocar um veiculo");
         }
@@ -67,6 +80,12 @@ public class MovimentacaoService {
         }
         if("".equals(movimentacao.getValorHora())){
             throw new RuntimeException(" Deve colocar o valor da hora");
+        }
+        if( this.valTelefone.ValTelefone(movimentacao.getCondutor().getTelefone()) == false) {
+            throw new RuntimeException(" Seu telefone nao é valido");
+        }
+        if (this.valCpf.valCpf(movimentacao.getCondutor().getCpf()) == false){
+            throw new RuntimeException(" Seu CPF nao é valido");
         }
         this.movimentacaoRepository.save(movimentacao);
     }
