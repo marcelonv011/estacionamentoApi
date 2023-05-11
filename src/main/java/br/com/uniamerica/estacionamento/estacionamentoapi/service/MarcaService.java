@@ -20,6 +20,9 @@ public class MarcaService {
         if(marca.getNome().length() > 70) {
             throw new RuntimeException(" O nome de o modelo debe conter menos de 70 carateres");
         }
+        if ( marcaRepository.findByNome(marca.getNome()) != null) {
+            throw new RuntimeException(" O nome ja existe");
+        }
         this.marcaRepository.save(marca);
     }
 

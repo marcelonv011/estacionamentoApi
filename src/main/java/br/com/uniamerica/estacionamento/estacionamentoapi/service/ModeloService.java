@@ -1,6 +1,7 @@
 package br.com.uniamerica.estacionamento.estacionamentoapi.service;
 
 import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Modelo;
+import br.com.uniamerica.estacionamento.estacionamentoapi.repository.MarcaRepository;
 import br.com.uniamerica.estacionamento.estacionamentoapi.repository.ModeloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,8 @@ public class ModeloService {
 
     @Autowired
     private ModeloRepository modeloRepository;
+    @Autowired
+    private MarcaRepository marcaRepository;
 
     @Transactional
     public void cadastrarModelo(Modelo modelo){
@@ -21,8 +24,17 @@ public class ModeloService {
         if (modelo.getNome().length() > 100){
             throw new RuntimeException("O nome de o modelo debe conter menos de 100 carateres");
         }
+        if (modelo.getMarca().getNome().length() > 70){
+            throw new RuntimeException(" O nome da marca tem que ser menor de 50 carateres");
+        }
         if(modelo.getMarca().getNome() == null || modelo.getMarca().getNome().isEmpty()){
             throw new RuntimeException("Debe conter um nome de marca");
+        }
+        if ( marcaRepository.findByNome(modelo.getMarca().getNome()) != null) {
+            throw new RuntimeException(" O nome da marca ja existe");
+        }
+        if ( modeloRepository.findByNome(modelo.getNome()) != null) {
+            throw new RuntimeException(" O nome de o modelo ja existe");
         }
         this.modeloRepository.save(modelo);
     }
@@ -38,6 +50,12 @@ public class ModeloService {
         }
         if(modelo.getMarca().getNome() == null || modelo.getMarca().getNome().isEmpty()){
             throw new RuntimeException("Debe conter um nome de marca");
+        }
+        if (modelo.getNome().length() > 100){
+            throw new RuntimeException("O nome de o modelo debe conter menos de 100 carateres");
+        }
+        if (modelo.getMarca().getNome().length() > 70){
+            throw new RuntimeException(" O nome da marca tem que ser menor de 50 carateres");
         }
         this.modeloRepository.save(modelo);
     }
