@@ -76,7 +76,7 @@ public class MovimentacaoService {
         if ( veiculoRepository.findByPlaca(movimentacao.getVeiculo().getPlaca()) != null){
             throw new RuntimeException(" Placa de veiculo ja existe!");
         }
-        if ( movimentacao.getVeiculo().getAno() < 1980){
+        if ( movimentacao.getVeiculo().getAno() < 1900){
             throw new RuntimeException(" Tem que colocar o ano de o veiculo mais novo");
         }
         if ( movimentacao.getVeiculo().getModelo().getNome().length() > 100){
@@ -104,7 +104,7 @@ public class MovimentacaoService {
             throw new RuntimeException(" O nome de o modelo ja existe");
         }
         if ( marcaRepository.findByNome(movimentacao.getVeiculo().getModelo().getMarca().getNome()) != null) {
-            throw new RuntimeException(" O nome de o modelo ja existe");
+            throw new RuntimeException(" O nome da marca ja existe");
         }
         this.movimentacaoRepository.save(movimentacao);
     }
@@ -158,9 +158,6 @@ public class MovimentacaoService {
         }
         if ( movimentacao.getVeiculo().getTipo() == null) {
             throw new RuntimeException(" Tem que colocar o tipo de veiculo");
-        }
-        if ( veiculoRepository.findByPlaca(movimentacao.getVeiculo().getPlaca()) != null){
-            throw new RuntimeException(" Placa de veiculo ja existe!");
         }
         if ( movimentacao.getVeiculo().getAno() < 1980){
             throw new RuntimeException(" Tem que colocar o ano de o veiculo mais novo");
