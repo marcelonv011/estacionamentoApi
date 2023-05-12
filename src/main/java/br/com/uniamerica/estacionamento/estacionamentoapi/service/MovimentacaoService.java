@@ -43,9 +43,6 @@ public class MovimentacaoService {
         if ("".equals(movimentacao.getSaida())){
             throw new RuntimeException(" Deve colocar um horario de saida");
         }
-        if ("".equals(movimentacao.getTempo())){
-            throw new RuntimeException(" Deve colocar o tempo que fico o carro");
-        }
         if("".equals(movimentacao.getValorTotal())){
             throw new RuntimeException(" Deve colocar o valor total");
         }
@@ -73,9 +70,7 @@ public class MovimentacaoService {
         if ( movimentacao.getVeiculo().getTipo() == null) {
             throw new RuntimeException(" Tem que colocar o tipo de veiculo");
         }
-        if ( veiculoRepository.findByPlaca(movimentacao.getVeiculo().getPlaca()) != null){
-            throw new RuntimeException(" Placa de veiculo ja existe!");
-        }
+
         if ( movimentacao.getVeiculo().getAno() < 1900){
             throw new RuntimeException(" Tem que colocar o ano de o veiculo mais novo");
         }
@@ -96,15 +91,6 @@ public class MovimentacaoService {
         }
         if ( "".equals(movimentacao.getCondutor().getTempoPago())){
             throw new RuntimeException(" Tempo pago de o condutor nao pode ser nulo");
-        }
-        if ( condutorRepository.findByCpf(movimentacao.getCondutor().getCpf()) != null){
-            throw new RuntimeException(" O CPF já existe");
-        }
-        if ( marcaRepository.findByNome(movimentacao.getVeiculo().getModelo().getNome()) != null){
-            throw new RuntimeException(" O nome de o modelo ja existe");
-        }
-        if ( marcaRepository.findByNome(movimentacao.getVeiculo().getModelo().getMarca().getNome()) != null) {
-            throw new RuntimeException(" O nome da marca ja existe");
         }
         this.movimentacaoRepository.save(movimentacao);
     }
@@ -180,6 +166,7 @@ public class MovimentacaoService {
         if ( "".equals(movimentacao.getCondutor().getTempoPago())){
             throw new RuntimeException(" Tempo pago nao pode ser nulo");
         }
+        //movimentacao.setTempo(movimentacao.getSaida() - movimentacao.getEntrada());
         this.movimentacaoRepository.save(movimentacao);
     }
 
