@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @Service
 public class MovimentacaoService {
 
@@ -42,6 +45,14 @@ public class MovimentacaoService {
         }
         if ("".equals(movimentacao.getSaida())){
             throw new RuntimeException(" Deve colocar um horario de saida");
+        }
+        if(movimentacao.getSaida() != null){
+            LocalTime tempo = movimentacao.getSaida()
+                    .minusHours(movimentacao.getEntrada().getHour())
+                    .minusMinutes(movimentacao.getEntrada().getMinute())
+                    .minusSeconds(movimentacao.getEntrada().getSecond())
+                    .minusNanos(movimentacao.getEntrada().getNano());
+            movimentacao.setTempo(tempo);
         }
         if("".equals(movimentacao.getValorTotal())){
             throw new RuntimeException(" Deve colocar o valor total");
@@ -115,8 +126,13 @@ public class MovimentacaoService {
         if ("".equals(movimentacao.getSaida())){
             throw new RuntimeException(" Deve colocar um horario de saida");
         }
-        if ("".equals(movimentacao.getTempo())){
-            throw new RuntimeException(" Deve colocar o tempo que fico o carro");
+        if(movimentacao.getSaida() != null){
+            LocalTime tempo = movimentacao.getSaida()
+                    .minusHours(movimentacao.getEntrada().getHour())
+                    .minusMinutes(movimentacao.getEntrada().getMinute())
+                    .minusSeconds(movimentacao.getEntrada().getSecond())
+                    .minusNanos(movimentacao.getEntrada().getNano());
+            movimentacao.setTempo(tempo);
         }
         if("".equals(movimentacao.getValorTotal())){
             throw new RuntimeException(" Deve colocar o valor total");
