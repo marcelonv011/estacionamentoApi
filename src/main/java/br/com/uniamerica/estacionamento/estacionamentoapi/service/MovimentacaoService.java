@@ -166,7 +166,7 @@ public class MovimentacaoService {
         if ( "".equals(movimentacao.getCondutor().getTempoPago())){
             throw new RuntimeException(" Tempo pago nao pode ser nulo");
         }
-        //movimentacao.setTempo(movimentacao.getSaida() - movimentacao.getEntrada());
+
         this.movimentacaoRepository.save(movimentacao);
     }
 

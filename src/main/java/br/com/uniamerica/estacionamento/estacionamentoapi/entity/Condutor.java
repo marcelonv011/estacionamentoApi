@@ -7,14 +7,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 
 
 import java.time.LocalTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Audited
 @Entity
 @Table(name = "tb_condutores", schema = "estacionamento")
+@AuditTable(value = "tb_condutores_audit", schema = "audit")
 public class Condutor extends AbstractEntity{
 
     @Getter @Setter

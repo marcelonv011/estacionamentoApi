@@ -6,14 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Audited
 @Entity
 @Table(name = "tb_configuracoes", schema = "estacionamento")
+@AuditTable(value = "tb_configuracoes_audit", schema = "audit")
 public class Configuracao extends AbstractEntity{
 
     @Getter @Setter

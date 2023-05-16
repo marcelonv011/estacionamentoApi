@@ -5,15 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Audited
 @Table(name = "tb_movimentacoes", schema = "estacionamento")
+@AuditTable(value = "tb_movimentacoes_audit", schema = "audit")
 public class Movimentacao extends AbstractEntity{
 
     @Getter @Setter
@@ -36,7 +41,7 @@ public class Movimentacao extends AbstractEntity{
 
     @Getter @Setter
     @Column(name = "tempo", nullable = false)
-    private LocalTime tempo;
+    private LocalDateTime tempo;
 
     @Getter @Setter
     @Column(name = "tempoDesconto")
@@ -65,5 +70,7 @@ public class Movimentacao extends AbstractEntity{
     @Getter @Setter
     @Column(name = "valorHoraMulta")
     private BigDecimal valorHoraMulta;
+
+
 
 }

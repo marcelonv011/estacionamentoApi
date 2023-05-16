@@ -7,11 +7,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Audited
 @Entity
 @Table(name = "tb_marcas", schema = "estacionamento")
+@AuditTable(value = "tb_marcas_audit", schema = "audit")
 public class Marca extends AbstractEntity {
 
     @Getter @Setter
