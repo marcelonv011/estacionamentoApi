@@ -2,15 +2,15 @@ package br.com.uniamerica.estacionamento.estacionamentoapi.service;
 
 import br.com.uniamerica.estacionamento.estacionamentoapi.configs.ValCpf;
 import br.com.uniamerica.estacionamento.estacionamentoapi.configs.ValTelefone;
+import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Configuracao;
 import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Movimentacao;
-import br.com.uniamerica.estacionamento.estacionamentoapi.repository.CondutorRepository;
-import br.com.uniamerica.estacionamento.estacionamentoapi.repository.MarcaRepository;
-import br.com.uniamerica.estacionamento.estacionamentoapi.repository.MovimentacaoRepository;
-import br.com.uniamerica.estacionamento.estacionamentoapi.repository.VeiculoRepository;
+import br.com.uniamerica.estacionamento.estacionamentoapi.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -25,12 +25,9 @@ public class MovimentacaoService {
 
     @Autowired
     private ValTelefone valTelefone;
+
     @Autowired
-    private VeiculoRepository veiculoRepository;
-    @Autowired
-    private CondutorRepository condutorRepository;
-    @Autowired
-    private MarcaRepository marcaRepository;
+    private Configuracao configuracao;
 
     @Transactional
     public void cadastrarMovimentacao(Movimentacao movimentacao){
@@ -45,14 +42,6 @@ public class MovimentacaoService {
         }
         if ("".equals(movimentacao.getSaida())){
             throw new RuntimeException(" Deve colocar um horario de saida");
-        }
-        if(movimentacao.getSaida() != null){
-            LocalTime tempo = movimentacao.getSaida()
-                    .minusHours(movimentacao.getEntrada().getHour())
-                    .minusMinutes(movimentacao.getEntrada().getMinute())
-                    .minusSeconds(movimentacao.getEntrada().getSecond())
-                    .minusNanos(movimentacao.getEntrada().getNano());
-            movimentacao.setTempo(tempo);
         }
         if("".equals(movimentacao.getValorTotal())){
             throw new RuntimeException(" Deve colocar o valor total");
@@ -103,6 +92,21 @@ public class MovimentacaoService {
         if ( "".equals(movimentacao.getCondutor().getTempoPago())){
             throw new RuntimeException(" Tempo pago de o condutor nao pode ser nulo");
         }
+        if(movimentacao.getSaida() != null){
+            LocalTime tempo = movimentacao.getSaida()
+                    .minusHours(movimentacao.getEntrada().getHour())
+                    .minusMinutes(movimentacao.getEntrada().getMinute())
+                    .minusSeconds(movimentacao.getEntrada().getSecond())
+                    .minusNanos(movimentacao.getEntrada().getNano());
+            movimentacao.setTempo(tempo);
+        }
+
+       if(movimentacao.getValorTotal() != null){
+
+         BigDecimal valorTotal = configuracao.getValorHora().multiply(new BigDecimal(movimentacao.getTempo().getSecond()));
+
+         movimentacao.setValorTotal(valorTotal);
+        }
         this.movimentacaoRepository.save(movimentacao);
     }
 
@@ -126,14 +130,7 @@ public class MovimentacaoService {
         if ("".equals(movimentacao.getSaida())){
             throw new RuntimeException(" Deve colocar um horario de saida");
         }
-        if(movimentacao.getSaida() != null){
-            LocalTime tempo = movimentacao.getSaida()
-                    .minusHours(movimentacao.getEntrada().getHour())
-                    .minusMinutes(movimentacao.getEntrada().getMinute())
-                    .minusSeconds(movimentacao.getEntrada().getSecond())
-                    .minusNanos(movimentacao.getEntrada().getNano());
-            movimentacao.setTempo(tempo);
-        }
+
         if("".equals(movimentacao.getValorTotal())){
             throw new RuntimeException(" Deve colocar o valor total");
         }
@@ -182,7 +179,20 @@ public class MovimentacaoService {
         if ( "".equals(movimentacao.getCondutor().getTempoPago())){
             throw new RuntimeException(" Tempo pago nao pode ser nulo");
         }
+        if(movimentacao.getSaida() != null){
+            LocalTime tempo = movimentacao.getSaida()
+                    .minusHours(movimentacao.getEntrada().getHour())
+                    .minusMinutes(movimentacao.getEntrada().getMinute())
+                    .minusSeconds(movimentacao.getEntrada().getSecond())
+                    .minusNanos(movimentacao.getEntrada().getNano());
+            movimentacao.setTempo(tempo);
+        }
+        if(movimentacao.getValorTotal() != null){
 
+            BigDecimal valorTotal = movimentacao.getValorHora().multiply(new BigDecimal(movimentacao.getTempo().getHour()));
+
+            movimentacao.setValorTotal(valorTotal);
+        }
         this.movimentacaoRepository.save(movimentacao);
     }
 

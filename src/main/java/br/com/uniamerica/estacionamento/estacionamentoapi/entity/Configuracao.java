@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
@@ -16,6 +17,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Audited
 @Entity
+@Component
 @Table(name = "tb_configuracoes", schema = "estacionamento")
 @AuditTable(value = "tb_configuracoes_audit", schema = "audit")
 public class Configuracao extends AbstractEntity{
