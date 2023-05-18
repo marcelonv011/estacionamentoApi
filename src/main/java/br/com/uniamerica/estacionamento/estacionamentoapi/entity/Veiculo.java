@@ -16,6 +16,7 @@ import org.hibernate.envers.Audited;
 @AuditTable(value = "tb_veiculos_audit", schema = "audit")
 public class Veiculo extends AbstractEntity{
 
+
     @Getter @Setter
     @Column(name = "placa", nullable = false, unique = true)
     private String placa;

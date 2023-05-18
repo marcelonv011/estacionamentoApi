@@ -26,8 +26,8 @@ public class MovimentacaoService {
     @Autowired
     private ValTelefone valTelefone;
 
-    @Autowired
-    private Configuracao configuracao;
+   @Autowired
+   private ConfiguracaoRepository configuracaoRepository;
 
     @Transactional
     public void cadastrarMovimentacao(Movimentacao movimentacao){
@@ -101,9 +101,9 @@ public class MovimentacaoService {
             movimentacao.setTempo(tempo);
         }
 
-       if(movimentacao.getValorTotal() != null){
+       if(movimentacao.getTempo() != null){
 
-         BigDecimal valorTotal = configuracao.getValorHora().multiply(new BigDecimal(movimentacao.getTempo().getSecond()));
+         BigDecimal valorTotal = configuracaoRepository.findByHora().multiply(new BigDecimal(movimentacao.getTempo().getSecond()));
 
          movimentacao.setValorTotal(valorTotal);
         }
@@ -187,9 +187,10 @@ public class MovimentacaoService {
                     .minusNanos(movimentacao.getEntrada().getNano());
             movimentacao.setTempo(tempo);
         }
-        if(movimentacao.getValorTotal() != null){
+        if(movimentacao.getTempo() != null){
+            movimentacao.setValorHora(configuracaoRepository.findByHora());
 
-            BigDecimal valorTotal = movimentacao.getValorHora().multiply(new BigDecimal(movimentacao.getTempo().getHour()));
+            BigDecimal valorTotal = configuracaoRepository.findByHora().multiply(new BigDecimal(movimentacao.getTempo().getHour()));
 
             movimentacao.setValorTotal(valorTotal);
         }
