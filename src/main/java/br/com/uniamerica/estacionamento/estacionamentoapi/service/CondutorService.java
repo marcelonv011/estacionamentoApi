@@ -65,7 +65,12 @@ public class CondutorService {
         if(condutor.getTempoPago() == null){
             throw new RuntimeException(" Tempo pago nao pode ser nulo");
         }
-
+        if(!condutor.getCpf().equals(condutorRepository.findById(condutor.getId()).get().getCpf())){
+            throw new RuntimeException(" Seu cpf ja foi cadastrado");
+        }
+        if(!condutor.getTelefone().equals(condutorRepository.findById(condutor.getId()).get().getTelefone())){
+            throw new RuntimeException(" Seu telefone ja foi cadastrado");
+        }
         this.condutorRepository.save(condutor);
     }
 }
