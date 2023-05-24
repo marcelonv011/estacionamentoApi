@@ -28,7 +28,7 @@ public class CondutorService {
         if(condutor.getNome().length() > 100){
             throw new RuntimeException("Maximo 100 carateres");
         }
-        if("".equals(condutor.getTempoPago())){
+        if(condutor.getTempoPago() == null){
             throw new RuntimeException(" Tempo pago nao pode ser nulo");
         }
         if( this.valTelefone.ValTelefone(condutor.getTelefone()) == false) {
@@ -61,6 +61,9 @@ public class CondutorService {
         }
         if (this.valCpf.valCpf(condutor.getCpf()) == false){
             throw new RuntimeException(" Seu CPF nao é valido");
+        }
+        if(condutor.getTempoPago() == null){
+            throw new RuntimeException(" Tempo pago nao pode ser nulo");
         }
 
         this.condutorRepository.save(condutor);

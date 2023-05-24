@@ -18,18 +18,13 @@ public class ModeloService {
 
     @Transactional
     public void cadastrarModelo(Modelo modelo){
-        if (modelo.getNome() == null){
+        if ("".equals(modelo.getNome())){
             throw new RuntimeException("Debe conter um nome");
         }
         if (modelo.getNome().length() > 100){
             throw new RuntimeException("O nome de o modelo debe conter menos de 100 carateres");
         }
-        if (modelo.getMarca().getNome().length() > 70){
-            throw new RuntimeException(" O nome da marca tem que ser menor de 50 carateres");
-        }
-        if(modelo.getMarca().getNome() == null || modelo.getMarca().getNome().isEmpty()){
-            throw new RuntimeException("Debe conter um nome de marca");
-        }
+
         if ( marcaRepository.findByNome(modelo.getMarca().getNome()) != null) {
             throw new RuntimeException(" O nome da marca ja existe");
         }
@@ -48,14 +43,8 @@ public class ModeloService {
         if (modelo.getNome() == null || modelo.getNome().isEmpty()) {
             throw new RuntimeException("Debe contener un nombre");
         }
-        if(modelo.getMarca().getNome() == null || modelo.getMarca().getNome().isEmpty()){
-            throw new RuntimeException("Debe conter um nome de marca");
-        }
         if (modelo.getNome().length() > 100){
             throw new RuntimeException("O nome de o modelo debe conter menos de 100 carateres");
-        }
-        if (modelo.getMarca().getNome().length() > 70){
-            throw new RuntimeException(" O nome da marca tem que ser menor de 50 carateres");
         }
         this.modeloRepository.save(modelo);
     }
