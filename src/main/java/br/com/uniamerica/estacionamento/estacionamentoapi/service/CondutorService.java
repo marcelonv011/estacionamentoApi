@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 @Service
 public class CondutorService {
 
@@ -20,13 +24,14 @@ public class CondutorService {
     @Autowired
     private ValCpf valCpf;
 
+
     @Transactional
     public void cadastrarCondutor(Condutor condutor){
         if(condutor.getNome() == null || condutor.getNome().isEmpty()){
             throw new RuntimeException(" Debe conter um nome");
         }
-        if(condutor.getNome().length() > 100){
-            throw new RuntimeException("Maximo 100 carateres");
+        if(condutor.getNome().length() > 100 || condutor.getNome().length() < 2){
+            throw new RuntimeException("Maximo 100 carateres e deve ser maior a 2");
         }
         if(condutor.getTempoPago() == null){
             throw new RuntimeException(" Tempo pago nao pode ser nulo");
@@ -34,6 +39,7 @@ public class CondutorService {
         if( this.valTelefone.ValTelefone(condutor.getTelefone()) == false) {
             throw new RuntimeException(" Seu telefone nao é valido");
         }
+
         if (this.valCpf.valCpf(condutor.getCpf()) == false){
             throw new RuntimeException(" Seu CPF nao é valido");
         }
@@ -65,12 +71,13 @@ public class CondutorService {
         if(condutor.getTempoPago() == null){
             throw new RuntimeException(" Tempo pago nao pode ser nulo");
         }
-        if(!condutor.getCpf().equals(condutorRepository.findById(condutor.getId()).get().getCpf())){
-            throw new RuntimeException(" Seu cpf ja foi cadastrado");
+        if(!condutor.isAtivo()){
+            condutor.setAtivo(true);
         }
-        if(!condutor.getTelefone().equals(condutorRepository.findById(condutor.getId()).get().getTelefone())){
-            throw new RuntimeException(" Seu telefone ja foi cadastrado");
+        if(condutor.getCadastro()==null || "".equals(condutor.getCadastro())){
+            condutor.setCadastro(condutorRepository.findById(condutor.getId()).get().getCadastro());
         }
+
         this.condutorRepository.save(condutor);
     }
 }
