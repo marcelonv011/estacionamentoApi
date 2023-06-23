@@ -15,4 +15,5 @@ public interface CondutorRepository extends JpaRepository<Condutor, Long> {
 
     public Condutor findByCpf(String cpf);
 
+    public Condutor findByTelefone(String telefone);
 }

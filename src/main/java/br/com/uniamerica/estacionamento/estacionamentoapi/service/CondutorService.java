@@ -30,21 +30,26 @@ public class CondutorService {
         if(condutor.getNome() == null || condutor.getNome().isEmpty()){
             throw new RuntimeException(" Debe conter um nome");
         }
-        if(condutor.getNome().length() > 100 || condutor.getNome().length() < 2){
-            throw new RuntimeException("Maximo 100 carateres e deve ser maior a 2");
+        if(condutor.getCpf() == null){
+            throw new RuntimeException(" Seu cpf nao pode ser nulo");
         }
-        if(condutor.getTempoPago() == null){
-            throw new RuntimeException(" Tempo pago nao pode ser nulo");
+        if(condutor.getTelefone() == null){
+            throw new RuntimeException(" Seu telefone nao pode ser nulo");
+        }
+        if(condutor.getNome().length() > 100 || condutor.getNome().length() < 2){
+            throw new RuntimeException(" O nome é maximo 100 carateres e deve ser maior a 2");
         }
         if( this.valTelefone.ValTelefone(condutor.getTelefone()) == false) {
             throw new RuntimeException(" Seu telefone nao é valido");
         }
-
         if (this.valCpf.valCpf(condutor.getCpf()) == false){
             throw new RuntimeException(" Seu CPF nao é valido");
         }
         if(condutorRepository.findByCpf(condutor.getCpf())!=null){
             throw new RuntimeException(" O CPF já existe");
+        }
+        if (condutorRepository.findByTelefone(condutor.getTelefone())!=null){
+            throw new RuntimeException(" O telefone já existe");
         }
         this.condutorRepository.save(condutor);
     }
