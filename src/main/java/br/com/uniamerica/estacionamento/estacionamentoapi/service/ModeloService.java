@@ -25,9 +25,6 @@ public class ModeloService {
             throw new RuntimeException("O nome de o modelo debe conter menos de 100 carateres");
         }
 
-        if ( marcaRepository.findByNome(modelo.getMarca().getNome()) != null) {
-            throw new RuntimeException(" O nome da marca ja existe");
-        }
         if ( modeloRepository.findByNome(modelo.getNome()) != null) {
             throw new RuntimeException(" O nome de o modelo ja existe");
         }
