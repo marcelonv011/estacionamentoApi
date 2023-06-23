@@ -18,7 +18,7 @@ public class ModeloService {
 
     @Transactional
     public void cadastrarModelo(Modelo modelo){
-        if ("".equals(modelo.getNome())){
+        if (modelo.getNome() == null){
             throw new RuntimeException("Debe conter um nome");
         }
         if (modelo.getNome().length() > 100){

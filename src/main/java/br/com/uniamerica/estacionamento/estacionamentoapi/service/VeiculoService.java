@@ -25,13 +25,19 @@ public class VeiculoService {
             throw new RuntimeException(" Tem que colocar o cor de veiculo");
         }
         if (veiculo.getTipo() == null ) {
-            throw new RuntimeException("Tem que colocar o tipo de veiculo");
+            throw new RuntimeException(" Tem que colocar o tipo de veiculo");
+        }
+        if ( veiculo.getPlaca() == null ) {
+            throw new RuntimeException(" A placa de o veiculo nao pode ser nulo");
         }
         if ( veiculoRepository.findByPlaca(veiculo.getPlaca()) != null){
             throw new RuntimeException(" Placa de veiculo ja existe!");
         }
         if ( veiculo.getAno() < 1980){
             throw new RuntimeException(" Tem que colocar um veiculo mais novo");
+        }
+        if ( veiculo.getAno() > 2023) {
+            throw new RuntimeException( " O ano de o veiculo nao pode ser maior a o ano atual ");
         }
 
         this.veiculoRepository.save(veiculo);
