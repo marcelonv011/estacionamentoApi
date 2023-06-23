@@ -1,5 +1,7 @@
 package br.com.uniamerica.estacionamento.estacionamentoapi.controller;
 
+import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Cor;
+import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Tipo;
 import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Veiculo;
 import br.com.uniamerica.estacionamento.estacionamentoapi.repository.VeiculoRepository;
 import br.com.uniamerica.estacionamento.estacionamentoapi.service.VeiculoService;
@@ -39,13 +41,21 @@ public class VeiculoController {
         return ResponseEntity.ok(this.veiculoRepository.findByAtivo(true));
     }
 
+    @GetMapping("/colores")
+    public ResponseEntity<Cor[]> getColores() {
+        return ResponseEntity.ok().body(Cor.values());
+    }
+    @GetMapping("/tipo")
+    public ResponseEntity<Tipo[]> getTipo() {
+        return ResponseEntity.ok().body(Tipo.values());
+    }
+
     @PostMapping
     public  ResponseEntity<?> cadastrar(@RequestBody final Veiculo veiculo){
         try {
             this.veiculoService.cadastrarVeiculo(veiculo);
-        } catch (DataIntegrityViolationException e) {
-            throw new RuntimeException("CPF já foi cadastrado");
-        } catch (Exception e){
+        }
+         catch (Exception e){
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
         return ResponseEntity.ok().body("Registro adicionado con exito");
