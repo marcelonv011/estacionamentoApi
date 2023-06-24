@@ -38,10 +38,10 @@ public class MovimentacaoService {
         if ("".equals(movimentacao.getCondutor())){
             throw new RuntimeException(" Deve colocar um condutor");
         }
-        if ("".equals(movimentacao.getEntrada())){
+        if (movimentacao.getEntrada() == null){
             throw new RuntimeException(" Deve colocar um horario de entrada");
         }
-        if ("".equals(movimentacao.getSaida())){
+        if (movimentacao.getSaida() == null){
             throw new RuntimeException(" Deve colocar um horario de saida");
         }
         if("".equals(movimentacao.getValorTotal())){
