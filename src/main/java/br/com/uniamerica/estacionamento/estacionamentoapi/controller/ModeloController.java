@@ -87,10 +87,10 @@ public class ModeloController {
             this.modeloRepository.delete(modelo);
             return ResponseEntity.ok("Registro deletado");
         }
-        catch(DataIntegrityViolationException e){
+        catch(RuntimeException e){
             modelo.setAtivo(false);
             this.modeloRepository.save(modelo);
-            return ResponseEntity.internalServerError().body("Erro " + e.getCause().getCause().getMessage());
+            return ResponseEntity.badRequest().body("Nao pode excluir sim nao esta ativo");
         }
     }
 

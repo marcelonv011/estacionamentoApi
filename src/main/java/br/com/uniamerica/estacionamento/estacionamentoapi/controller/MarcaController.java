@@ -73,10 +73,10 @@ public class MarcaController {
             this.marcaRepository.delete(marca);
             return ResponseEntity.ok("Registro deletado");
         }
-        catch(DataIntegrityViolationException e){
+        catch(RuntimeException e){
             marca.setAtivo(false);
             this.marcaRepository.save(marca);
-            return ResponseEntity.internalServerError().body("Erro " + e.getCause().getCause().getMessage());
+            return ResponseEntity.badRequest().body("Nao pode excluir sim nao esta ativo");
         }
     }
 
