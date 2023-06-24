@@ -72,10 +72,10 @@ public class CondutorController {
             this.condutorRepository.delete(condutor);
             return ResponseEntity.ok("Registro deletado");
         }
-        catch(DataIntegrityViolationException e){
+        catch(RuntimeException e){
             condutor.setAtivo(false);
             this.condutorRepository.save(condutor);
-            return ResponseEntity.internalServerError().body("Erro " + e.getCause().getCause().getMessage());
+            return ResponseEntity.badRequest().body("Nao pode excluir sim nao esta ativo");
         }
     }
 }
