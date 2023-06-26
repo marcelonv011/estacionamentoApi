@@ -19,6 +19,15 @@ public class MarcaController {
     @Autowired
     private MarcaService marcaService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(
+            @PathVariable("id") final Long id
+    ){
+        final Marca marca = this.marcaRepository.findById(id).orElse(null);
+        return marca == null
+                ? ResponseEntity.badRequest().body("ningun valor encontrado")
+                : ResponseEntity.ok(marca);
+    }
     @GetMapping
     public ResponseEntity<?> findByRequest(
             @RequestParam("id") final Long id
@@ -50,9 +59,9 @@ public class MarcaController {
         return ResponseEntity.ok().body("Registro adicionado com exito");
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(
-            @RequestParam("id") final Long id,
+            @PathVariable("id") final Long id,
             @RequestBody final Marca marca
     ) {
         try {

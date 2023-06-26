@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RestController
 @RequestMapping(value = "api/veiculo")
 public class VeiculoController {
 
@@ -21,6 +22,15 @@ public class VeiculoController {
     @Autowired
     private VeiculoService veiculoService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(
+            @PathVariable("id") final long id
+    ){
+        final Veiculo veiculo = this.veiculoRepository.findById(id).orElse(null);
+        return veiculo == null
+                ? ResponseEntity.badRequest().body("Ningun valor encontrado.")
+                : ResponseEntity.ok(veiculo);
+    }
     @GetMapping
     public ResponseEntity<?> findByIdRequest(
             @RequestParam("id") final long id
@@ -61,9 +71,9 @@ public class VeiculoController {
         return ResponseEntity.ok().body("Registro adicionado con exito");
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(
-            @RequestParam("id") final Long id,
+            @PathVariable("id") final Long id,
             @RequestBody final Veiculo veiculo
     ) {
         try {
