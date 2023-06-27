@@ -20,8 +20,8 @@ public class CondutorController {
     private CondutorService condutorService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByid(
-            @PathVariable("id") final long id
+    public ResponseEntity<?> FindById(
+            @PathVariable("id") final Long id
     ) {
         final Condutor condutor = this.condutorRepository.findById(id).orElse(null);
         return condutor == null

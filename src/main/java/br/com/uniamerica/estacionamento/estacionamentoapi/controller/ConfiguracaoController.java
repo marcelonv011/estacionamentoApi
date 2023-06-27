@@ -52,7 +52,7 @@ public class ConfiguracaoController {
         return ResponseEntity.ok().body("Registro adicionado com exito");
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public  ResponseEntity<?> atualizar(
             @PathVariable("id") final Long id,
             @RequestBody final Configuracao configuracao
