@@ -19,6 +19,16 @@ public class ConfiguracaoController {
     @Autowired
     private ConfiguracaoService configuracaoService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(
+            @PathVariable("id") final Long id
+    ){
+        final Configuracao configuracao = this.configuracaoRepository.findById(id).orElse(null);
+        return configuracao == null
+                ? ResponseEntity.badRequest().body("ningun valor encontrado")
+                : ResponseEntity.ok(configuracao);
+    }
+
     @GetMapping
     public ResponseEntity<?> findByRequest(
             @RequestParam("id") final Long id
@@ -44,7 +54,7 @@ public class ConfiguracaoController {
 
     @PutMapping
     public  ResponseEntity<?> atualizar(
-            @RequestParam("id") final Long id,
+            @PathVariable("id") final Long id,
             @RequestBody final Configuracao configuracao
     ){
         try {
