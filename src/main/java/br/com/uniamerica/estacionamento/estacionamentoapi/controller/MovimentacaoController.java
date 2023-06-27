@@ -19,6 +19,15 @@ public class MovimentacaoController {
     @Autowired
     private MovimentacaoService movimentacaoService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(
+            @PathVariable("id") final long id
+    ) {
+        final Movimentacao movimentacao = this.movimentacaoRepository.findById(id).orElse(null);
+        return movimentacao == null
+                ? ResponseEntity.badRequest().body("Ningun valor encontrado.")
+                : ResponseEntity.ok(movimentacao);
+    }
     @GetMapping
     public ResponseEntity<?> findByIdRequest(
             @RequestParam("id") final long id
@@ -50,9 +59,9 @@ public class MovimentacaoController {
         return ResponseEntity.ok().body("Registro adicionado con exito");
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(
-            @RequestParam("id") final Long id,
+            @PathVariable("id") final Long id,
             @RequestBody final Movimentacao movimentacao
     ) {
         try {
@@ -74,9 +83,15 @@ public class MovimentacaoController {
         if(movimentacao==null){
             return ResponseEntity.badRequest().body("Não foi possivel desativar a flag");
         }
-        movimentacao.setAtivo(false);
-        movimentacaoRepository.save(movimentacao);
-        return ResponseEntity.ok("Flag desativada com sucesso");
+        if (movimentacao.isAtivo() == true){
+            movimentacao.setAtivo(false);
+            movimentacaoRepository.save(movimentacao);
+            return ResponseEntity.ok("Flag desativada com sucesso");
+        }
+        else {
+            this.movimentacaoRepository.delete(movimentacao);
+            return ResponseEntity.ok("Registro deletado");
+        }
     }
 
 }

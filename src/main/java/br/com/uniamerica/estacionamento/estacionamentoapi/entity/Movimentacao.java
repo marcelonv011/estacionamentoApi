@@ -1,5 +1,6 @@
 package br.com.uniamerica.estacionamento.estacionamentoapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,9 +34,11 @@ public class Movimentacao extends AbstractEntity{
 
     @Getter @Setter
     @Column(name = "entrada", nullable = false)
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime entrada;
 
     @Getter @Setter
+    @JsonFormat(pattern = "HH:mm:ss")
     @Column(name = "saida", nullable = false)
     private LocalTime saida;
 
