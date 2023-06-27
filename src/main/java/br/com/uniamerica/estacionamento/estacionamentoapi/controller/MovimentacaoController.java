@@ -1,5 +1,6 @@
 package br.com.uniamerica.estacionamento.estacionamentoapi.controller;
 
+import br.com.uniamerica.estacionamento.estacionamentoapi.configs.Recibo;
 import br.com.uniamerica.estacionamento.estacionamentoapi.entity.Movimentacao;
 import br.com.uniamerica.estacionamento.estacionamentoapi.repository.MovimentacaoRepository;
 import br.com.uniamerica.estacionamento.estacionamentoapi.service.MovimentacaoService;
@@ -52,11 +53,12 @@ public class MovimentacaoController {
     public  ResponseEntity<?> cadastrar(@RequestBody final Movimentacao movimentacao){
         try {
             this.movimentacaoService.cadastrarMovimentacao(movimentacao);
+            String recibo = Recibo.gerarRecibo(movimentacao);
+            return ResponseEntity.ok().body(recibo);
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
-        return ResponseEntity.ok().body("Registro adicionado con exito");
     }
 
     @PutMapping("/{id}")

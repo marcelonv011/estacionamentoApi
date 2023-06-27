@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface MovimentacaoRepository extends JpaRepository<Movimentacao, Long> {
 
+
+
     @Query("SELECT m FROM Movimentacao m WHERE m.saida IS NULL")
     public List<Movimentacao> findByAberta();
 

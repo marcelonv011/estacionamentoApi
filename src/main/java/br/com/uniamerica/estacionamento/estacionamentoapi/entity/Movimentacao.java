@@ -43,6 +43,7 @@ public class Movimentacao extends AbstractEntity{
     private LocalTime saida;
 
     @Getter @Setter
+    @JsonFormat(pattern = "HH:mm:ss")
     @Column(name = "tempo")
     private LocalTime tempo;
 
