@@ -41,15 +41,7 @@ public class MovimentacaoService {
         if (movimentacao.getEntrada() == null){
             throw new RuntimeException(" Deve colocar um horario de entrada");
         }
-        if (movimentacao.getSaida() == null){
-            throw new RuntimeException(" Deve colocar um horario de saida");
-        }
-        if("".equals(movimentacao.getValorTotal())){
-            throw new RuntimeException(" Deve colocar o valor total");
-        }
-        if("".equals(movimentacao.getValorHora())){
-            throw new RuntimeException(" Deve colocar o valor da hora");
-        }
+
         if(movimentacao.getSaida() != null){
             LocalTime tempo = movimentacao.getSaida()
                     .minusHours(movimentacao.getEntrada().getHour())
@@ -84,9 +76,6 @@ public class MovimentacaoService {
         }
         if ("".equals(movimentacao.getEntrada())){
             throw new RuntimeException(" Deve colocar um horario de entrada");
-        }
-        if ("".equals(movimentacao.getSaida())){
-            throw new RuntimeException(" Deve colocar um horario de saida");
         }
 
         if("".equals(movimentacao.getValorTotal())){

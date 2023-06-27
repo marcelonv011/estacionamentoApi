@@ -68,6 +68,8 @@ public class MovimentacaoController {
     ) {
         try {
             this.movimentacaoService.atualizarMovimentacao(id, movimentacao);
+            String recibo = Recibo.gerarRecibo(movimentacao);
+            return ResponseEntity.ok().body(recibo);
         }
         catch (DataIntegrityViolationException e){
             return ResponseEntity.internalServerError()
@@ -76,7 +78,6 @@ public class MovimentacaoController {
         catch (RuntimeException e){
             return ResponseEntity.internalServerError().body("error:" + e.getMessage());
         }
-        return ResponseEntity.ok("Registro atualizado com sucesso");
     }
 
     @DeleteMapping

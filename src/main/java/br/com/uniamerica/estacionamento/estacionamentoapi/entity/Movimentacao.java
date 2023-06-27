@@ -39,7 +39,7 @@ public class Movimentacao extends AbstractEntity{
 
     @Getter @Setter
     @JsonFormat(pattern = "HH:mm:ss")
-    @Column(name = "saida", nullable = false)
+    @Column(name = "saida")
     private LocalTime saida;
 
     @Getter @Setter
@@ -64,11 +64,11 @@ public class Movimentacao extends AbstractEntity{
     private BigDecimal valorMulta;
 
     @Getter @Setter
-    @Column(name = "valorTotal", nullable = false)
+    @Column(name = "valorTotal")
     private BigDecimal valorTotal;
 
     @Getter @Setter
-    @Column(name = "valorHora", nullable = false)
+    @Column(name = "valorHora")
     private BigDecimal valorHora;
 
     @Getter @Setter
