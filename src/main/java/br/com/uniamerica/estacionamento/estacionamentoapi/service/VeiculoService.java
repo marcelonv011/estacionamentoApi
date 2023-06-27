@@ -63,6 +63,9 @@ public class VeiculoService {
         if ( veiculo.getAno() < 1980){
             throw new RuntimeException(" Tem que colocar um veiculo mais novo");
         }
+        if ( veiculo.getAno() > 2023){
+            throw new RuntimeException(" Erro a colocar o ano de o veiculo");
+        }
         this.veiculoRepository.save(veiculo);
     }
 }
