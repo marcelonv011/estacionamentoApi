@@ -19,6 +19,15 @@ public class CondutorController {
     @Autowired
     private CondutorService condutorService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findByid(
+            @PathVariable("id") final long id
+    ) {
+        final Condutor condutor = this.condutorRepository.findById(id).orElse(null);
+        return condutor == null
+                ? ResponseEntity.badRequest().body("ningun valor encontrado")
+                : ResponseEntity.ok(condutor);
+    }
     @GetMapping
     public ResponseEntity<?> findByRequest(
             @RequestParam("id") final long id
@@ -49,9 +58,9 @@ public class CondutorController {
         return ResponseEntity.ok().body("Registro adicionado com exito");
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(
-            @RequestParam("id") final Long id,
+            @PathVariable("id") final Long id,
             @RequestBody final Condutor condutor
     ) {
         try {

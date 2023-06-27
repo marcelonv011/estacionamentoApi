@@ -73,9 +73,6 @@ public class CondutorService {
         if (this.valCpf.valCpf(condutor.getCpf()) == false){
             throw new RuntimeException(" Seu CPF nao é valido");
         }
-        if(condutor.getTempoPago() == null){
-            throw new RuntimeException(" Tempo pago nao pode ser nulo");
-        }
         if(!condutor.isAtivo()){
             condutor.setAtivo(true);
         }
