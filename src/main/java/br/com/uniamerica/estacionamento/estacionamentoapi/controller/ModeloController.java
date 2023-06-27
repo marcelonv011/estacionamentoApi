@@ -62,9 +62,9 @@ public class ModeloController {
         return ResponseEntity.ok().body("Registro adicionado con exito");
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<?> atualizar(
-            @RequestParam("id") final Long id,
+            @PathVariable("id") final Long id,
             @RequestBody final Modelo modelo
     ) {
         try {
